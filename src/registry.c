@@ -4,7 +4,7 @@
 
 BOOL WriteIntoRegistry(HKEY hkey, LPWSTR path, LPCWSTR subkey, DWORD dwType, void* data){
     HKEY handle;
-    LSTATUS result = RegOpenKeyExW(HKEY_LOCAL_MACHINE, path, 0, KEY_SET_VALUE, &handle);
+    LSTATUS result = RegOpenKeyExW(hkey, path, 0, KEY_SET_VALUE, &handle);
     if(result != ERROR_SUCCESS){
         ShowFailureResponse(GetLastError());
         return FALSE;
