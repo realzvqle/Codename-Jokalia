@@ -16,5 +16,8 @@ BOOL FreeVirtualMemory(void* memory);
 VOID ShutdownSystem();
 VOID RestartSystem();
 BOOL CheckIfWindows10OrGreater();
-
+BOOL CheckIfFileExists(CHAR* filename);
+BOOL MalCreateFile(CHAR* filename);
+BOOL WriteDataIntoFile(WCHAR* filename, WCHAR* data);
+WCHAR* ReadData(WCHAR* filename, size_t size);
 #endif

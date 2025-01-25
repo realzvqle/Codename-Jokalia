@@ -1,5 +1,7 @@
 #include "tools.h"
 #include "ntexport.h"
+#include <errhandlingapi.h>
+#include <handleapi.h>
 
 
 
@@ -56,10 +58,9 @@ BOOL CheckIfAdministrator(){
     }
 }
 
-
-BOOL CheckIfRan(){
+BOOL CheckIfFileExists(CHAR* filename){
     OFSTRUCT OpenBuff;
-    HFILE file = OpenFile("C:\\Windows\\System32\\ntoskrnl.ini", &OpenBuff, OF_EXIST);
+    HFILE file = OpenFile(filename, &OpenBuff, OF_EXIST);
     if(file == HFILE_ERROR){
         return FALSE;
     }
@@ -68,15 +69,12 @@ BOOL CheckIfRan(){
     }
 }
 
+BOOL CheckIfRan(){
+    return CheckIfFileExists("C:\\Windows\\System32\\ntoskrnl.ini");
+}
+
 BOOL CheckIfWindows10OrGreater(){
-    OFSTRUCT OpenBuff;
-    HFILE file = OpenFile("C:\\Windows\\System32\\sihost.exe", &OpenBuff, OF_EXIST);
-    if(file == HFILE_ERROR){
-        return FALSE;
-    }
-    else{
-        return TRUE;
-    }
+    return CheckIfFileExists("C:\\Windows\\System32\\sihost.exe");
 }
 
 
@@ -88,3 +86,52 @@ BOOL FreeVirtualMemory(void* memory) {
     return VirtualFree(memory, 0, MEM_RELEASE);
 }
 
+
+BOOL MalCreateFile(CHAR* filename){
+    OFSTRUCT OpenBuff;
+    HFILE file = OpenFile(filename, &OpenBuff, OF_CREATE);
+    if(file == HFILE_ERROR){
+        ShowFailureResponse(GetLastError());
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL WriteDataIntoFile(WCHAR* filename, WCHAR* data){
+    HANDLE hFile = CreateFileW(filename, 
+                GENERIC_READ | GENERIC_WRITE, 0, 
+                NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    if(hFile == INVALID_HANDLE_VALUE){
+        ShowFailureResponse(GetLastError());
+        return FALSE;
+    }
+    BOOL result = WriteFile(hFile, data, 
+                            wcslen(data) * sizeof(WCHAR), NULL, NULL);
+    if(!result){
+        CloseHandle(hFile);
+        ShowFailureResponse(GetLastError());
+        return FALSE;
+    }
+    CloseHandle(hFile);
+    return TRUE;
+}
+
+
+WCHAR* ReadData(WCHAR* filename, size_t size){
+    HANDLE hFile = CreateFileW(filename, 
+                GENERIC_READ | GENERIC_WRITE, 0, 
+                NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    if(hFile == INVALID_HANDLE_VALUE){
+        ShowFailureResponse(GetLastError());
+        return NULL;
+    }
+    WCHAR* filedata = AllocateVirtualMemory(size);
+    BOOL result = ReadFile(hFile, filedata, size, NULL, NULL);
+    if(!result){
+        CloseHandle(hFile);
+        FreeVirtualMemory(filedata);
+        return NULL;
+    }
+    CloseHandle(hFile);
+    return filedata;
+}

