@@ -87,3 +87,4 @@ void* AllocateVirtualMemory(size_t size) {
 BOOL FreeVirtualMemory(void* memory) {
     return VirtualFree(memory, 0, MEM_RELEASE);
 }
+

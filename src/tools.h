@@ -16,4 +16,5 @@ BOOL FreeVirtualMemory(void* memory);
 VOID ShutdownSystem();
 VOID RestartSystem();
 BOOL CheckIfWindows10OrGreater();
+
 #endif
