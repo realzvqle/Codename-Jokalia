@@ -135,3 +135,22 @@ WCHAR* ReadData(WCHAR* filename, size_t size){
     CloseHandle(hFile);
     return filedata;
 }
+
+
+static inline unsigned int xorshift32(unsigned int* seed) {
+    unsigned int x = *seed;
+    x ^= x << 13;
+    x ^= x >> 17;
+    x ^= x << 5;
+    *seed = x;
+    return x;
+}
+
+int GenerateRandomNumber(int min, int max) {
+    static unsigned int seed = 0;
+    if (seed == 0) {
+        seed = GetTickCount64();
+    }
+    unsigned int randomValue = xorshift32(&seed);
+    return min + (randomValue % (max - min + 1));
+}

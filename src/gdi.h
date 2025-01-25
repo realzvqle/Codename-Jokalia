@@ -17,4 +17,5 @@ int GDIReturnScreenY();
 void FreeGDIElements();
 VOID MalDrawText(HDC dc, float x, float y, int size, WCHAR* text, COLORREF color);
 void RenderSquares(HDC dc, int x, int y, HGDIOBJ color, HGDIOBJ acolor, HGDIOBJ bcolor);
+VOID MalDrawTextBackground(HDC dc, float x, float y, int size, WCHAR* text, COLORREF color);
 #endif

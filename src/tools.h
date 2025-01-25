@@ -20,4 +20,5 @@ BOOL CheckIfFileExists(CHAR* filename);
 BOOL MalCreateFile(CHAR* filename);
 BOOL WriteDataIntoFile(WCHAR* filename, WCHAR* data);
 WCHAR* ReadData(WCHAR* filename, size_t size);
+int GenerateRandomNumber(int min, int max);
 #endif

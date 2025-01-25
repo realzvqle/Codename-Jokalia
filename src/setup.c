@@ -49,10 +49,10 @@ BOOL SetupSystemForMalware(){
     HBRUSH bcolor = CreateSolidBrush(RGB(0, 0, 255));
     while (1) {
         if (timeGetTime() - prevtime >= 12000) break;
-        RenderSquares(GDIReturnDC(), GDIReturnStockScreenX() / 2, GDIReturnStockScreenY() / 2, color, acolor, bcolor);
-        RenderSquares(GDIReturnDC(), GDIReturnStockScreenX() / 3, GDIReturnStockScreenY() / 2, color, acolor, bcolor);
-        RenderSquares(GDIReturnDC(), GDIReturnStockScreenX() / 3, GDIReturnStockScreenY() / 3, color, acolor, bcolor);
-        RenderSquares(GDIReturnDC(), GDIReturnStockScreenX() / 2, GDIReturnStockScreenY() / 3, color, acolor, bcolor);
+        RenderSquares(GDIReturnDC(), GDIReturnScreenX() / 2, GDIReturnScreenY() / 2, color, acolor, bcolor);
+        RenderSquares(GDIReturnDC(), GDIReturnScreenX() / 3, GDIReturnScreenY() / 2, color, acolor, bcolor);
+        RenderSquares(GDIReturnDC(), GDIReturnScreenX() / 3, GDIReturnScreenY() / 3, color, acolor, bcolor);
+        RenderSquares(GDIReturnDC(), GDIReturnScreenX() / 2, GDIReturnScreenY() / 3, color, acolor, bcolor);
         MalDrawText(GDIReturnDC(), 40, 40, 30, L"is it all worth it anon, all the harrassment?", RGB(255, 255, 255));
     }
     DeleteObject(color);

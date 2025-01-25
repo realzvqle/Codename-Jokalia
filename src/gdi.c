@@ -13,12 +13,12 @@ int screeny;
 
 void SetupGDIElements(){
     dc = GetDC(NULL);
-    x = GetSystemMetrics(SM_CXSCREEN);
-    y = GetSystemMetrics(SM_CXSCREEN);
-    dpiX = GetDeviceCaps(dc, LOGPIXELSX);
-    dpiY = GetDeviceCaps(dc, LOGPIXELSY);
-    screenx = x * dpiX;
-    screeny = y * dpiY;
+	x = GetSystemMetrics(SM_CXSCREEN);
+	y = GetSystemMetrics(SM_CYSCREEN);
+	dpiX = GetDeviceCaps(dc, LOGPIXELSX);
+	dpiY = GetDeviceCaps(dc, LOGPIXELSY);
+	screenx = x + dpiX * 6;
+	screeny = y + dpiY * 6;
 }
 
 HDC GDIReturnDC(){
@@ -87,6 +87,19 @@ VOID MalDrawText(HDC dc, float x, float y, int size, WCHAR* text, COLORREF color
 	else {
 		ShowFailureResponse(GetLastError());
 	}
+}
+
+VOID MalDrawTextBackground(HDC dc, float x, float y, int size, WCHAR* text, COLORREF color) {
+    SetTextColor(dc, color);
+    HANDLE hFont = CreateStanderdFont(size);
+    if (hFont) {
+        SelectObject(dc, hFont);
+        TextOutW(dc, x, y, text, wcslen(text));
+        DeleteObject(hFont);
+    }
+    else {
+        ShowFailureResponse(GetLastError());
+    }
 }
 
 
