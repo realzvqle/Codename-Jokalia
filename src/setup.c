@@ -8,7 +8,7 @@
 #include <winuser.h>
 
 BOOL DoWarnings(){
-    if(MessageBoxW(NULL, L"This does no good for you, continue?", L"will hyperborea ever happen?", MB_YESNO | MB_ICONWARNING) == IDYES){
+    if(MessageBoxW(NULL, L"This does no good for you, continue?", L"will [] ever happen?", MB_YESNO | MB_ICONWARNING) == IDYES){
         if(MessageBoxW(NULL, L"This will only do harm to your PC\n\n  you sure about this?", L"is paganism the future?", MB_YESNO | MB_ICONWARNING) == IDYES){
             return TRUE;
         }
